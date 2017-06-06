@@ -1,0 +1,23 @@
+{% extends "yj_logs/base.html" %}
+
+{% block header %}
+    <h2>所有记忆</h2>
+{% endblock header %}
+
+{% block content %}
+
+    <ul>
+    {% for topic in topics %}
+        <li>
+        <h4>
+            <a href="{% url 'yj_logs:topic' topic.id %}">{{ topic }}</a>
+        </h4>
+        </li>
+    {% empty %}
+        <li>记忆角落，荒芜之地.</li>
+    {% endfor %}
+    </ul>
+
+    <h3><a href="{% url 'yj_logs:new_topic' %}">开启新记忆</a></h3>
+
+{% endblock content %}
