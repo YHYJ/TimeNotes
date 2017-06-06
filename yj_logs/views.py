@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect,Http404
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect,Http404
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.——创建yj_logs的视图函数
@@ -22,7 +22,7 @@ def topics(request):
 @login_required()
 def topic(request,topic_id):
     """显示特定主题及其所有文章"""
-    topic = Topic.objects.get(id=topic_id)
+    topic = get_object_or_404(Topic,id=topic_id)
     # 确认请求的主题属于当前用户
     if topic.owner != request.user:
         raise Http404
@@ -52,7 +52,7 @@ def new_topic(request):
 @login_required()
 def new_entry(request,topic_id):
     """在特定的主题中添加新文章"""
-    topic = Topic.objects.get(id=topic_id)
+    topic = get_object_or_404(Topic,id=topic_id)
     if topic.owner != request.user:
         raise Http404
 
@@ -74,7 +74,7 @@ def new_entry(request,topic_id):
 @login_required()
 def edit_entry(request,entry_id):
     """编辑既有文章"""
-    entry = Entry.objects.get(id=entry_id)
+    entry = get_object_or_404(Entry,id=entry_id)
     topic = entry.topic
     if topic.owner != request.user:
         raise Http404
